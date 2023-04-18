@@ -10,11 +10,11 @@ import { verifyToken } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.get("/", verifyToken, getAllGestor);
+router.get("/", getAllGestor);
 
 router.get("/:id", verifyToken, getOneGestor);
 
-router.post("/", verifyToken, createGestor);
+router.post("/", createGestor);
 
 router.put("/:id", verifyToken, updateGestor);
 

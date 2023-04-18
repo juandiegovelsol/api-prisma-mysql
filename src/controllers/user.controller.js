@@ -4,10 +4,10 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-const user = {
+/* const user = {
   username: "email@test.com",
   passwd: "secret_passwd",
-};
+}; */
 
 export const generateToken = (req, res) => {
   try {
