@@ -4,7 +4,7 @@ import gestorRoutes from "./routes/gestor.route.js";
 import projectRoutes from "./routes/project.route.js";
 import gestorProjectRoutes from "./routes/gestorProject.route.js";
 import userRoutes from "./routes/user.route.js";
-
+import { verifyToken } from "./controllers/user.controller.js";
 const app = express();
 const PORT = process.env.PORT;
 
