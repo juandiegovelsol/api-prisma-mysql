@@ -24,23 +24,19 @@ export const generateToken = (req, res) => {
 export const login = async (req, res, next) => {
   const { username: email, passwd: password } = req.body;
   try {
-    const hash = bcrypt.hashSync(password, 12);
     const user = await prisma.user.findFirst({
       where: {
         email: email,
-        password: hash,
       },
     });
-    console.log("user", user);
-    /*     if (username === user.username && passwd === user.passwd) {
-      req.body.user = {
-        name: "Juan",
-        lastName: "Velasco",
-      };
+    const isValidUser = bcrypt.compareSync(password, user.password);
+    if (isValidUser) {
       next();
     } else {
-      res.status(401).send();
-    } */
+      res
+        .status(401)
+        .json({ error: true, message: "Invalid user or password" });
+    }
   } catch (error) {
     res.status(500).json({ error: true });
   }
@@ -52,22 +48,14 @@ export const verifyToken = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     const { exp: expDate } = decoded;
 
-    console.log(decoded);
-
     //expired? verificar esta validacion
-    if (expDate < Date.now() / 1000) {
-      console.log(expDate, Date.now());
+    if (Date.now / 1000 > expDate) {
       res.status(401);
-      console.log("expired");
     } else {
       //should verify token is correct and could verify if username exists in db
       next();
     }
-    /*  next(); */
   } catch (error) {}
-
-  /*   console.log(token);
-  next(); */
 };
 
 export const register = async (req, res) => {
